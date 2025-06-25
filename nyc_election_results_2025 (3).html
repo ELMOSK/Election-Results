@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NYC Election Results 2025 - Democratic Primary</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            text-align: center;
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .election-date {
+            background: linear-gradient(45deg, #3498db, #e74c3c);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            display: inline-block;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #e74c3c;
+            display: block;
+        }
+
+        .stat-label {
+            color: #7f8c8d;
+            font-size: 1rem;
+            margin-top: 5px;
+        }
+
+        .nav-tabs {
+            display: flex;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 5px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            background: transparent;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #7f8c8d;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+
+        .nav-tab.active {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            box-shadow: 0 3px 10px rgba(52, 152, 219, 0.3);
+        }
+
+        .nav-tab:hover {
+            background: rgba(52, 152, 219, 0.1);
+        }
+
+        .nav-tab.active:hover {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+
+        .tab-content {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .race-section {
+            background: rgba(255, 255, 255, 0.95);
+            margin-bottom: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .race-header {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .race-title {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .race-subtitle {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .race-content {
+            padding: 30px;
+        }
+
+        .winner-highlight {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .winner-name {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .winner-votes {
+            font-size: 1.3rem;
+            opacity: 0.9;
+        }
+
+        .candidates-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .candidates-table th {
+            background: #34495e;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .candidates-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        .candidates-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .candidates-table tr:hover {
+            background: #e3f2fd;
+        }
+
+        .vote-bar {
+            background: #ecf0f1;
+            height: 20px;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            margin: 5px 0;
+        }
+
+        .vote-fill {
+            background: linear-gradient(90deg, #3498db, #2980b9);
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.8s ease;
+        }
+
+        .highlight-stat {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .borough-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .borough-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .borough-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .council-district {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #3498db;
+        }
+
+        .district-number {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #e74c3c;
+            margin-bottom: 10px;
+        }
+
+        .district-areas {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .turnout-section {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .nav-tabs {
+                flex-direction: column;
+            }
+            
+            .summary-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🗳️ New York City Election Results</h1>
+            <div class="subtitle">Democratic Primary Elections</div>
+            <div class="election-date">June 24, 2025</div>
+        </header>
+
+        <div class="summary-stats">
+            <div class="stat-card">
+                <span class="stat-number">1.1M+</span>
+                <div class="stat-label">Total Voters</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">384K</span>
+                <div class="stat-label">Early Voters</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">28</span>
+                <div class="stat-label">Council Races</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">102°F</span>
+                <div class="stat-label">Election Day Heat</div>
+            </div>
+        </div>
+
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showTab('mayor')">Mayor</button>
+            <button class="nav-tab" onclick="showTab('citywide')">Citywide Races</button>
+            <button class="nav-tab" onclick="showTab('council')">City Council</button>
+            <button class="nav-tab" onclick="showTab('other')">Other Races</button>
+        </div>
+
+        <!-- MAYOR TAB -->
+        <div id="mayor" class="tab-content active">
+            <div class="race-section">
+                <div class="race-header">
+                    <div class="race-title">🏛️ Democratic Mayoral Primary</div>
+                    <div class="race-subtitle">Historic upset delivers progressive victory</div>
+                </div>
+                <div class="race-content">
+                    <div class="winner-highlight">
+                        <div class="winner-name">🎉 ZOHRAN MAMDANI - WINNER</div>
+                        <div class="winner-votes">432,305 votes (43.51%)</div>
+                    </div>
+                    
+                    <div class="highlight-stat">
+                        Mamdani leads Cuomo by 70,465 votes - Cuomo conceded election night
+                    </div>
+
+                    <table class="candidates-table">
+                        <thead>
+                            <tr>
+                                <th>Candidate</th>
+                                <th>Votes</th>
+                                <th>Percentage</th>
+                                <th>Visual</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background: #e8f5e8;">
+                                <td><strong>🏆 Zohran Mamdani</strong></td>
+                                <td><strong>432,305</strong></td>
+                                <td><strong>43.51%</strong></td>
+                                <td><div class="vote-bar"><div class="vote-fill" style="width: 100%;"></div></div></td>
+                            </tr>
+                            <tr>
+                                <td>Andrew Cuomo</td>
+                                <td>361,840</td>
+                                <td>36.42%</td>
+                                <td><div class="vote-bar"><div class="vote-fill" style="width: 84%;"></div></div></td>
+                            </tr>
+                            <tr>
+                                <td>Brad Lander</td>
+                                <td>112,349</td>
+                                <td>11.31%</td>
+                                <td><div class="vote-bar"><div class="vote-fill" style="width: 26%;"></div></div></td>
+                            </tr>
+                            <tr>
+                                <td>Adrienne Adams</td>
+                                <td>40,953</td>
+                                <td>4.12%</td>
+                                <td><div class="vote-bar"><div class="vote-fill" style="width: 9%;"></div></div></td>
+                            </tr>
+                            <tr>
+                                <td>Scott Stringer</td>
+                                <td>16,387</td>
+                                <td>1.65%</td>
+                                <td><div class="vote-bar"><div class="vote-fill" style="width: 4%;"></div></div></td>
+                            </tr>
+                            <tr>
+                                <td>Zellnor Myrie</td>
+                                <td>9,870</td>
+                                <td>0.99%</td>
+                                <td><div class="vote-bar"><div class="vote-fill" style="width: 2%;"></div></div></td>
+                            </tr>
+                            <tr>
+                                <td>Whitney Tilson</td>
+                                <td>7,828</td>
+                                <td>0.79%</td>
+                                <td><div class="vote-bar"><div class="vote-fill" style="width: 2%;"></div></div></td>
+                            </tr>
+                            <tr>
+                                <td>Michael Blake</td>
+                                <td>3,992</td>
+                                <td>0.40%</td>
+                                <td><div class="vote-bar"><div class="vote-fill" style="width: 1%;"></div></div></td>
+                            </tr>
+                            <tr>
+                                <td>Jessica Ramos</td>
+                                <td>3,862</td>
+                                <td>0.39%</td>
+                                <td><div class="vote-bar"><div class="vote-fill" style="width: 1%;"></div></div></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="turnout-section">
+                        <h3>🚀 Record Turnout Highlights</h3>
+                        <p><strong>Early Voting:</strong> 384,338 participants (doubled 2021 levels)<br>
+                        <strong>Brooklyn Led:</strong> 142,735 early votes (118% increase)<br>
+                        <strong>Heat Wave Impact:</strong> 102°F didn't deter voter participation</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CITYWIDE RACES TAB -->
+        <div id="citywide" class="tab-content">
+            <div class="race-section">
+                <div class="race-header">
+                    <div class="race-title">🏛️ Public Advocate</div>
+                    <div class="race-subtitle">Incumbent Williams wins decisively</div>
+                </div>
+                <div class="race-content">
+                    <div class="winner-highlight">
+                        <div class="winner-name">🎉 JUMAANE WILLIAMS - RE-ELECTED</div>
+                        <div class="winner-votes">71.2% of votes</div>
+                    </div>
+                    
+                    <table class="candidates-table">
+                        <thead>
+                            <tr>
+                                <th>Candidate</th>
+                                <th>Percentage</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background: #e8f5e8;">
+                                <td><strong>🏆 Jumaane Williams</strong></td>
+                                <td><strong>71.2%</strong></td>
+                                <td><strong>Incumbent - Re-elected</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Jenifer Rajkumar</td>
+                                <td>18.8%</td>
+                                <td>Queens Assembly member</td>
+                            </tr>
+                            <tr>
+                                <td>Martin Dolan</td>
+                                <td>9.4%</td>
+                                <td>Retired insurance executive</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="race-section">
+                <div class="race-header">
+                    <div class="race-title">💰 Comptroller</div>
+                    <div class="race-subtitle">Levine defeats finance chair Brannan</div>
+                </div>
+                <div class="race-content">
+                    <div class="winner-highlight">
+                        <div class="winner-name">🎉 MARK LEVINE - WINNER</div>
+                        <div class="winner-votes">425,510 votes (48.13%)</div>
+                    </div>
+                    
+                    <div class="highlight-stat">
+                        Levine's 14+ point victory margin prompted Brannan to concede election night
+                    </div>
+
+                    <table class="candidates-table">
+                        <thead>
+                            <tr>
+                                <th>Candidate</th>
+                                <th>Votes</th>
+                                <th>Percentage</th>
+                                <th>Background</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background: #e8f5e8;">
+                                <td><strong>🏆 Mark Levine</strong></td>
+                                <td><strong>425,510</strong></td>
+                                <td><strong>48.13%</strong></td>
+                                <td><strong>Manhattan Borough President</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Justin Brannan</td>
+                                <td>296,739</td>
+                                <td>33.50%</td>
+                                <td>Finance Committee Chair</td>
+                            </tr>
+                            <tr>
+                                <td>Ismael Malave Perez</td>
+                                <td>89,238</td>
+                                <td>10.11%</td>
+                                <td>Community leader</td>
+                            </tr>
+                            <tr>
+                                <td>Kevin Parker</td>
+                                <td>68,757</td>
+                                <td>7.79%</td>
+                                <td>State Senator</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="highlight-stat">
+                        💸 Fundraising: Levine raised $4.8M vs Brannan's $1.9M
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CITY COUNCIL TAB -->
+        <div id="council" class="tab-content">
+            <div class="race-section">
+                <div class="race-header">
+                    <div class="race-title">🏛️ City Council Elections</div>
+                    <div class="race-subtitle">28 contested races across all 5 boroughs</div>
+                </div>
+                <div class="race-content">
+                    <div class="highlight-stat">
+                        Most incumbents successfully defended their seats • Several open races produced clear winners
+                    </div>
+                    
+                    <div class="borough-section">
+                        <div class="borough-card">
+                            <div class="borough-name">🗽 Manhattan</div>
+                            <div class="council-district">
+                                <div class="district-number">District 2</div>
+                                <div class="district-areas">Greenwich Village, East Village, Lower East Side</div>
+                                <strong>🏆 Harvey Epstein - 39%</strong><br>
+                                <small>Defeated Anthony Weiner's comeback attempt (10%)</small>
+                            </div>
+                            <div class="council-district">
+                                <div class="district-number">District 3</div>
+                                <div class="district-areas">West Village, Chelsea, Hell's Kitchen</div>
+                                <strong>🏆 Erik Bottcher (Incumbent)</strong><br>
+                                <small>Retained seat against Jacqueline Lara</small>
+                            </div>
+                        </div>
+
+                        <div class="borough-card">
+                            <div class="borough-name">🌉 Brooklyn</div>
+                            <div class="council-district">
+                                <div class="district-number">District 38</div>
+                                <div class="district-areas">Sunset Park, Red Hook</div>
+                                <strong>🏆 Alexa Avilés - 71.5%</strong><br>
+                                <small>Progressive incumbent dominated reelection</small>
+                            </div>
+                            <div class="council-district">
+                                <div class="district-number">District 39</div>
+                                <div class="district-areas">Park Slope, Carroll Gardens, Cobble Hill</div>
+                                <strong>🏆 Shahana Hanif (Incumbent)</strong><br>
+                                <small>Defeated Maya Kornberg in Gaza-focused race</small>
+                            </div>
+                            <div class="council-district">
+                                <div class="district-number">District 47</div>
+                                <div class="district-areas">Bay Ridge, Coney Island</div>
+                                <strong>🏆 Kayla Santosuosso - 79.3%</strong><br>
+                                <small>Won open seat left by Brannan</small>
+                            </div>
+                            <div class="council-district">
+                                <div class="district-number">District 48</div>
+                                <div class="district-areas">Sheepshead Bay, Brighton Beach</div>
+                                <strong>🏆 Inna Vernikov</strong><br>
+                                <small>Republican primary win over Ari Kagan</small>
+                            </div>
+                        </div>
+
+                        <div class="borough-card">
+                            <div class="borough-name">👑 Queens</div>
+                            <div class="council-district">
+                                <div class="district-number">District 21</div>
+                                <div class="district-areas">Jackson Heights, Corona</div>
+                                <strong>Three-way race:</strong><br>
+                                <small>Erycka Montoya vs Yanna Henriquez vs Shanel Thomas-Henry</small>
+                            </div>
+                            <div class="council-district">
+                                <div class="district-number">District 28</div>
+                                <div class="district-areas">Southeast Queens, Jamaica</div>
+                                <strong>Open seat competition:</strong><br>
+                                <small>Left by Speaker Adams' mayoral run</small>
+                            </div>
+                            <div class="council-district">
+                                <div class="district-number">District 30</div>
+                                <div class="district-areas">Maspeth, Glendale, Middle Village</div>
+                                <strong>Ultra-close three-way:</strong><br>
+                                Phil Wong 36.1% • Paul Pogozelski 31.9% • Dermot Smyth 30.7%
+                            </div>
+                        </div>
+
+                        <div class="borough-card">
+                            <div class="borough-name">🏔️ Bronx</div>
+                            <div class="council-district">
+                                <div class="district-number">District 8</div>
+                                <div class="district-areas">East Harlem, South Bronx</div>
+                                <strong>Six-way open race</strong><br>
+                                <small>Including Central Park 5 member Raymond Santana</small>
+                            </div>
+                            <div class="council-district">
+                                <div class="district-number">District 14</div>
+                                <div class="district-areas">Kingsbridge, Fordham</div>
+                                <strong>🏆 Pierina Sanchez (Incumbent)</strong><br>
+                                <small>Defeated Fernando Cabrera's comeback</small>
+                            </div>
+                        </div>
+
+                        <div class="borough-card">
+                            <div class="borough-name">🏖️ Staten Island</div>
+                            <div class="council-district">
+                                <div class="district-number">District 50</div>
+                                <div class="district-areas">North Shore Staten Island</div>
+                                <strong>🏆 Kamillah Hanks (Incumbent)</strong><br>
+                                <small>Nearly 60% of first-choice votes</small>
+                            </div>
+                            <div class="council-district">
+                                <div class="district-number">District 51</div>
+                                <div class="district-areas">South Shore Staten Island</div>
+                                <strong>🏆 Frank Morano - 80%+</strong><br>
+                                <small>Republican primary over Griffin Fossella</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="turnout-section">
+                        <h3>💸 Council Race Spending</h3>
+                        <p><strong>Outside Spending:</strong> Nearly $14 million (double 2021)<br>
+                        <strong>Most Competitive:</strong> 28 contested primaries<br>
+                        <strong>Incumbent Success Rate:</strong> Most retained their seats</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- OTHER RACES TAB -->
+        <div id="other" class="tab-content">
+            <div class="race-section">
+                <div class="race-header">
+                    <div class="race-title">⚖️ District Attorneys</div>
+                    <div class="race-subtitle">Incumbents retain prosecution roles</div>
+                </div>
+                <div class="race-content">
+                    <table class="candidates-table">
+                        <thead>
+                            <tr>
+                                <th>Borough</th>
+                                <th>Winner</th>
+                                <th>Status</th>
+                                <th>Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Manhattan</strong></td>
+                                <td><strong>🏆 Alvin Bragg</strong></td>
+                                <td>Incumbent Re-elected</td>
+                                <td>Defeated Patrick Timmins</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Brooklyn</strong></td>
+                                <td><strong>🏆 Eric Gonzalez</strong></td>
+                                <td>Unopposed</td>
+                                <td>No primary challenger</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="race-section">
+                <div class="race-header">
+                    <div class="race-title">🏛️ Borough Presidents</div>
+                    <div class="race-subtitle">Open Manhattan seat creates competition</div>
+                </div>
+                <div class="race-content">
+                    <div class="highlight-stat">
+                        Manhattan Borough President race features three candidates using ranked choice voting
+                    </div>
+                    
+                    <table class="candidates-table">
+                        <thead>
+                            <tr>
+                                <th>Borough</th>
+                                <th>Candidates</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Manhattan</strong></td>
+                                <td>Brad Hoylman-Sigal<br>Keith Powers<br>Calvin Sun</td>
+                                <td>Open seat (Levine running for Comptroller)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="race-section">
+                <div class="race-header">
+                    <div class="race-title">⚖️ Judicial Elections</div>
+                    <div class="race-subtitle">Civil Court judges and convention delegates</div>
+                </div>
+                <div class="race-content">
+                    <div class="highlight-stat">
+                        📊 5 contested Civil Court judge races out of 14 total vacancies citywide
+                    </div>
+                    
+                    <table class="candidates-table">
+                        <thead>
+                            <tr>
+                                <th>Position</th>
+                                <th>Details</th>
+                                <th>Term/Salary</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Civil Court Judges</strong></td>
+                                <td>5 contested races<br>9 uncontested</td>
+                                <td>10-year terms<br>$216,400 salary</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Judicial Convention Delegates</strong></td>
+                                <td>Assembly District level<br>Brooklyn, Manhattan, Queens</td>
+                                <td>September convention<br>Supreme Court nominations</td>
+                            </tr>
+                            <tr>
+                                <td><strong>District Leaders</strong></td>
+                                <td>Male & Female slots<br>All 5 boroughs</td>
+                                <td>2-year terms<br>Unpaid volunteer positions</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="race-section">
+                <div class="race-header">
+                    <div class="race-title">📊 Election Mechanics & Impact</div>
+                    <div class="race-subtitle">Record turnout and ranked choice voting</div>
+                </div>
+                <div class="race-content">
+                    <div class="borough-section">
+                        <div class="borough-card">
+                            <div class="borough-name">🗳️ Voting Systems</div>
+                            <p><strong>Ranked Choice Voting:</strong> Applied to all NYC municipal offices (Mayor, Public Advocate, Comptroller, Borough President, City Council)</p>
+                            <p><strong>Traditional Voting:</strong> State positions like District Attorney and judicial races</p>
+                            <p><strong>Final Tabulation:</strong> July 1, 2025 for RCV races</p>
+                        </div>
+
+                        <div class="borough-card">
+                            <div class="borough-name">📈 Historic Turnout</div>
+                            <p><strong>Total Voters:</strong> Over 1.1 million</p>
+                            <p><strong>Early Voting:</strong> 384,338 (doubled 2021 levels)</p>
+                            <p><strong>Brooklyn Leader:</strong> 142,735 early votes (118% increase)</p>
+                            <p><strong>Weather Challenge:</strong> 102°F heat wave didn't deter participation</p>
+                        </div>
+
+                        <div class="borough-card">
+                            <div class="borough-name">💰 Campaign Finance</div>
+                            <p><strong>Council Races:</strong> Nearly $14M in outside spending</p>
+                            <p><strong>Mayoral Fundraising:</strong> Multiple candidates exceeded $5M</p>
+                            <p><strong>Comptroller Race:</strong> Levine $4.8M vs Brannan $1.9M</p>
+                            <p><strong>Public Advocate:</strong> Rajkumar $2.0M vs Williams $1.6M</p>
+                        </div>
+                    </div>
+
+                    <div class="turnout-section">
+                        <h3>🎯 Key Election Trends</h3>
+                        <p><strong>Progressive Victories:</strong> Younger voters powered several key wins<br>
+                        <strong>Incumbent Success:</strong> Most sitting Council members retained seats<br>
+                        <strong>Diversity Impact:</strong> Historic potential for first Muslim, Asian American, millennial mayor<br>
+                        <strong>Borough Patterns:</strong> Queens and Brooklyn showed strongest progressive turnout</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer style="background: rgba(255, 255, 255, 0.9); padding: 30px; border-radius: 15px; margin-top: 30px; text-align: center; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);">
+            <h3 style="color: #2c3e50; margin-bottom: 15px;">🗽 Looking Ahead</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 20px;">
+                <div style="background: #3498db; color: white; padding: 20px; border-radius: 10px;">
+                    <strong>July 1, 2025</strong><br>
+                    Final RCV results official
+                </div>
+                <div style="background: #e74c3c; color: white; padding: 20px; border-radius: 10px;">
+                    <strong>November 4, 2025</strong><br>
+                    General Election Day
+                </div>
+                <div style="background: #27ae60; color: white; padding: 20px; border-radius: 10px;">
+                    <strong>January 2026</strong><br>
+                    New administration begins
+                </div>
+            </div>
+            <p style="margin-top: 20px; color: #7f8c8d; font-style: italic;">
+                These results represent preliminary counts based on first-choice votes and available reporting. 
+                Final ranked choice voting tabulations will be completed by July 1, 2025. 
+                Record turnout and engagement levels suggest New Yorkers are deeply invested in their city's political future.
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            console.log('Switching to tab:', tabName);
+            
+            // Hide all tab contents
+            const allTabs = document.querySelectorAll('.tab-content');
+            allTabs.forEach(tab => {
+                tab.classList.remove('active');
+                tab.style.display = 'none';
+            });
+
+            // Remove active class from all nav tabs
+            const allNavTabs = document.querySelectorAll('.nav-tab');
+            allNavTabs.forEach(navTab => {
+                navTab.classList.remove('active');
+            });
+
+            // Show the selected tab
+            const selectedTab = document.getElementById(tabName);
+            if (selectedTab) {
+                selectedTab.style.display = 'block';
+                setTimeout(() => {
+                    selectedTab.classList.add('active');
+                }, 10);
+            }
+
+            // Add active class to the clicked nav tab
+            const clickedNavTab = event.target;
+            if (clickedNavTab) {
+                clickedNavTab.classList.add('active');
+            }
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Page loaded, initializing...');
+            
+            // Make sure Mayor tab is shown by default
+            showTab('mayor');
+            
+            // Add click listeners to all nav tabs (backup method)
+            const navTabs = document.querySelectorAll('.nav-tab');
+            navTabs.forEach((tab, index) => {
+                tab.addEventListener('click', function() {
+                    const tabNames = ['mayor', 'citywide', 'council', 'other'];
+                    const tabName = tabNames[index];
+                    console.log('Tab clicked:', tabName);
+                    showTab(tabName);
+                });
+            });
+
+            // Animate vote bars after a short delay
+            setTimeout(() => {
+                const voteFills = document.querySelectorAll('.vote-fill');
+                voteFills.forEach(fill => {
+                    const targetWidth = fill.style.width;
+                    fill.style.width = '0%';
+                    setTimeout(() => {
+                        fill.style.width = targetWidth;
+                    }, 500);
+                });
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
+                
